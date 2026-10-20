@@ -1,18 +1,25 @@
 {
   "name": "cordova-plugin-native-spinner",
-  "version": "1.1.4",
-  "description": "A Cordova plugin for showing a progress indicator based on Paldom/SpinnerDialog",
+  "version": "1.2.0",
+  "description": "A Cordova plugin for showing a native progress indicator, with UIScene support for cordova-ios 8+",
   "author": "Aleksandr Filatov",
+  "contributors": [
+    {
+      "name": "Andrés Zsögön",
+      "url": "https://github.com/andreszs"
+    }
+  ],
   "license": "MIT",
+  "homepage": "https://github.com/andreszs/cordova-plugin-native-spinner#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/greybax/cordova-plugin-native-spinner.git"
+    "url": "git+https://github.com/andreszs/cordova-plugin-native-spinner.git"
   },
   "cordova": {
     "id": "cordova-plugin-native-spinner",
     "platforms": [
       "android",
-	  "browser",
+      "browser",
       "ios",
       "wp8",
       "windows"
@@ -31,7 +38,7 @@
     "notification",
     "ecosystem:cordova",
     "cordova-android",
-	"cordova-browser",
+    "cordova-browser",
     "cordova-ios",
     "cordova-wp8",
     "cordova-windows",
@@ -43,13 +50,17 @@
     "8.1",
     "phone"
   ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=3.4.0"
+  "scripts": {
+    "test": "node --test tests/spinner-dialog.test.js tests/ios-source.test.js"
+  },
+  "engines": {
+    "cordovaDependencies": {
+      "1.2.0": {
+        "cordova-ios": ">=8.0.0"
+      }
     }
-  ],
+  },
   "bugs": {
-    "url": "https://github.com/greybax/cordova-plugin-native-spinner/issues"
+    "url": "https://github.com/andreszs/cordova-plugin-native-spinner/issues"
   }
 }

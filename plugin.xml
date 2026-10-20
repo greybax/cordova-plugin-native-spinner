@@ -1,16 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
         id="cordova-plugin-native-spinner"
-        version="1.1.4">
+        version="1.2.0">
   <name>Native Spinner</name>
   <description>
-      Cordova plugin for showing a progress indicator based on Paldom/SpinnerDialog. for Android, iOS, Windows 10 and Windows Phone 8.
+      Cordova plugin for showing a native progress indicator on Android, iOS, Browser, Windows 10 and Windows Phone 8.
   </description>
   <license>MIT</license>
   <keywords>phonegap,android,ios,wp8,windows,phone,spinner,dialog,progress,indicator</keywords>
 
   <engines>
       <engine name="cordova" version=">=3.4.0"/>
+      <engine name="cordova-ios" version=">=8.0.0"/>
   </engines>
 
   <asset src="www/SpinnerDialog.js" target="js/SpinnerDialog.js"/>

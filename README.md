@@ -1,127 +1,137 @@
 # cordova-plugin-native-spinner
 
-[![NPM version][npm-image]][npm-url] [![NPM downloads](https://img.shields.io/npm/dm/cordova-plugin-native-spinner.svg)](https://www.npmjs.com/package/cordova-plugin-native-spinner) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/greybax/cordova-plugin-native-spinner) ![GitHub top language](https://img.shields.io/github/languages/top/greybax/cordova-plugin-native-spinner) ![License](https://img.shields.io/github/license/greybax/cordova-plugin-native-spinner)
-
-> Cordova plugin for showing a native spinner based on Paldom/SpinnerDialog
-
-NPM Package: [cordova-plugin-native-spinner](https://www.npmjs.com/package/cordova-plugin-native-spinner)
-
-:fire: **This Plugin** is officially using in [ionic-native](https://ionicframework.com/docs/native/spinner-dialog/) :fire:
-
-## Platforms
-| <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Android_robot_head.svg/121px-Android_robot_head.svg.png" width="48px" height="27px" alt="Android logo"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/80px-Apple_logo_black.svg.png" width="39px" height="48px" alt="iOS logo"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/2000px-Windows_logo_-_2012.svg.png" width="48px" height="48px" alt="Windows logo"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/2000px-Windows_logo_-_2012.svg.png" width="48px" height="48px" alt="Windows logo"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Internet_Explorer_10%2B11_logo.svg/65px-Internet_Explorer_10%2B11_logo.svg.png" width="48px" height="48px" alt="iOS logo">
-|:---:|:---:|:---:|:---:|:---:|
-| 4.1+ ✔ | 10+ ✔ | WP 8.1+ ✔ | 10+ ✔ | Browser ✔ |
+Cordova plugin for showing a native indeterminate spinner. This fork modernizes
+the iOS implementation for the `UIScene` architecture used by `cordova-ios` 8
+while preserving the public JavaScript API and the existing Android code.
 
 ## Installation
 
-**Latest stable release**: 
+Install the maintained fork directly from GitHub:
 
-* PhoneGap - `phonegap local plugin add cordova-plugin-spinner-dialog`
-* Cordova - `cordova plugin add cordova-plugin-spinner-dialog`
-
-**Current state from git**:
-
-* PhoneGap - `phonegap local plugin add https://github.com/greybax/cordova-plugin-native-spinner`
-* Cordova - `cordova plugin add https://github.com/greybax/cordova-plugin-native-spinner`
-```
-cordova plugin add cordova-plugin-native-spinner
+```sh
+cordova plugin add https://github.com/andreszs/cordova-plugin-native-spinner.git
 cordova prepare
 ```
 
-## Includes PR's improvements from Paldom/SpinnerDialog:
+Pin a tag or commit in production builds:
 
-* [InAppBrowser Compatibility](https://github.com/Paldom/SpinnerDialog/pull/34)
-* [Change loading text if we call show function and loading dialog exists](https://github.com/Paldom/SpinnerDialog/pull/23)
-* and **tons fixes** from here https://github.com/Paldom/SpinnerDialog/issues ...
+```sh
+cordova plugin add https://github.com/andreszs/cordova-plugin-native-spinner.git#v1.2.0
+```
 
-## Methods
+## Compatibility
 
-- `SpinnerDialog.show`
-- `SpinnerDialog.hide`
+| Platform | Status | Requirements / validation |
+| --- | --- | --- |
+| iOS | Supported | `cordova-ios >= 8.0.0`; iOS 13+ as required by Cordova iOS 8 |
+| Android | Existing implementation retained | No Java changes in 1.2.0 |
+| Browser | Existing implementation retained | Not changed in 1.2.0 |
+| Windows 10 | Legacy implementation retained | Not changed or revalidated in 1.2.0 |
+| Windows Phone 8.1 | Legacy implementation retained | Not changed or revalidated in 1.2.0 |
 
-#### SpinnerDialog.show
+The iOS 1.2.0 development baseline is Node 20.17+, Cordova CLI 12, `cordova-ios
+8.1.0`, and Xcode 15+. iOS builds and the simulator require macOS. Physical
+device compatibility is not claimed until the manual device matrix in
+[`MANUAL_TESTS.md`](MANUAL_TESTS.md) has been completed.
 
-    SpinnerDialog.show([title], [message], [cancelCallback])
+## API
 
-- __title__: Spinner title (Android only). Optional. _(String)_
-- __message__: Spinner message. Optional. _(String)_
-- __cancelCallback__: Callback to invoke when spinner cancel event fired (tap or Android hardware back button event). If set, spinner dialog will be fixed, you should explicitly call `SpinnerDialog.hide`. Due to legacy reasons you can provide boolean value (true/false) to set spinner not cancelable. Optional, defaults to `false`. _(Function/Boolean)_
+The public API is unchanged:
 
-#### SpinnerDialog.hide
-
-    SpinnerDialog.hide([wpStatusbar]);
-
-- __wpStatusbar__: Indicates whether to keep the status bar visible. (Windows 10 Mobile only). If set to `true`, only the spinner will be hidden, the status bar will remain visible if it was already visible. Optional, defaults to `false`. _(Boolean)_
-
-## Usage
-
-```javascript
-// Show spinner dialog
-SpinnerDialog.show();
-
-// Show spinner dialog with message
-// Note: spinner dialog is cancelable by default
-SpinnerDialog.show(null, "message");
-
-// Set spinner dialog fixed
-SpinnerDialog.show(null, null, true);
-
-// Set spinner dialog fixed with callback
-// Note: callback fires on tap events and Android hardware back button click event
-SpinnerDialog.show(null, null, function () {console.log("callback");});
-
-// Show spinner dialog with title and message (Android only)
-SpinnerDialog.show("title", "message");
-
-// Set spinner dialog fixed (cannot be canceled with screen touch or Android hardware button)
-SpinnerDialog.show("title", "message", true);
-
-// Overlay opacity and text color options (IOS only)
-SpinnerDialog.show(null,"Message",true, {overlayOpacity: 0.35,  textColorRed: 1, textColorGreen: 1, textColorBlue: 1}); 
-
-// Change only overlay opacity (IOS only)
-SpinnerDialog.show(null,"Message",true,{overlayOpacity:0.70});
-
-// Change only text color (IOS only)
-SpinnerDialog.show(null,"message",true, { textColorRed: 0.1, textColorGreen: 0.1, textColorBlue: 1});
-
-// Change text font size (IOS only, default: 10, range: 8-30)
-SpinnerDialog.show(null,"message",true, { fontSize: 16 });
-
-// Combine multiple options (IOS only)
-SpinnerDialog.show(null,"Custom Message",true, { overlayOpacity: 0.5, fontSize: 18, textColorRed: 1, textColorGreen: 1, textColorBlue: 1 });
-
-// Hide spinner dialog
+```js
+SpinnerDialog.show(title, message, cancelCallback, options);
 SpinnerDialog.hide();
 ```
 
-## Quirks
+### `SpinnerDialog.show(title, message, cancelCallback, options)`
 
-* Cordova 5.0 or higher is required for Windows 10 support.
-* Windows 10 Mobile or Windows Phone 8.1 is required as desktop doesn't support StatusBar.
+- `title`: title on Android; used as the iOS message when `message` is absent.
+- `message`: arbitrary text. The iOS view supports wrapping and scrolls very
+  long content instead of drawing outside the host view.
+- `cancelCallback`:
+  - omitted or `false`: the overlay is cancelable by tapping it;
+  - `true`: the overlay is fixed and must be hidden explicitly;
+  - function: preserves the legacy fixed behavior and invokes the function at
+    most once when the overlay is tapped. Call `hide()` explicitly afterward.
+- `options`: iOS-only appearance and error options:
+  - `overlayOpacity` from `0` to `1` (default `0.35`);
+  - `textColorRed`, `textColorGreen`, `textColorBlue` from `0` to `1`;
+  - `fontSize` from `8` to `30` (default `16`);
+  - `errorCallback(error)` receives native setup errors, including a missing
+    Cordova host view or detached scene.
 
-## Screenshots
+Values are clamped natively. An explicit zero remains valid.
 
-### Android
+### `SpinnerDialog.hide()`
 
-<img src="https://github.com/andreszs/cordova-plugin-demos/blob/main/com.andreszs.spinner.demo/screenshots/android/spinner-2.png?raw=true" width="240" />
+Stops and removes the current overlay. Calling `hide()` when no spinner is
+visible, or calling it repeatedly, is safe.
 
-### Browser
+## Examples
 
-<img src="https://github.com/andreszs/cordova-plugin-demos/blob/main/com.andreszs.spinner.demo/screenshots/browser/spinner-2.png?raw=true" width="240" />
+Message with the default cancelable behavior:
 
-## Plugin demo app
+```js
+SpinnerDialog.show(null, 'Loading account data…');
+```
 
-Demo app source code to test the plugin is available at the [cordova-plugin-demos repository](https://github.com/andreszs/cordova-plugin-demos/tree/main/com.andreszs.spinner.demo "cordova-plugin-demos repository") by Andrés Zsögön.
+Blocking overlay with stronger dimming:
 
-## Post in my blog
+```js
+SpinnerDialog.show(null, 'Please wait', true, {
+  overlayOpacity: 0.7,
+  fontSize: 16,
+  errorCallback: function (error) {
+    console.error(error);
+  }
+});
+```
 
-https://alfilatov.com/posts/cordova-plugin-native-spinner/
+Fixed overlay with a one-shot tap callback:
 
-## License
-See "LICENSE".
-Based on https://github.com/Paldom/SpinnerDialog with lots of awesome improvements! :star: :tada: :rocket: :star:
+```js
+SpinnerDialog.show(null, 'Tap to request cancellation', function () {
+  cancelCurrentOperation();
+  SpinnerDialog.hide();
+});
+```
 
-[npm-url]: https://npmjs.org/package/cordova-plugin-native-spinner
-[npm-image]: https://img.shields.io/npm/v/cordova-plugin-native-spinner.svg
+Update the visible message and options without stacking overlays:
+
+```js
+SpinnerDialog.show(null, 'Step 1 of 2', true, { overlayOpacity: 0.35 });
+SpinnerDialog.show(null, 'Step 2 of 2', true, { overlayOpacity: 0.65 });
+```
+
+Restore interaction:
+
+```js
+SpinnerDialog.hide();
+```
+
+## iOS implementation notes
+
+The overlay is attached to `self.viewController.view`, which is the view owned
+by the current Cordova controller and scene. The implementation does not query
+the application delegate, `keyWindow`, global screen bounds, or status-bar
+orientation. UI work is serialized on the main queue; the overlay uses the
+host view's live bounds and flexible width/height autoresizing. It is also
+removed on WebView reset, plugin disposal, and scene disconnection.
+
+## Reproducible test app
+
+[`example`](example) contains a minimal Cordova app for all supported spinner
+variants. [`MANUAL_TESTS.md`](MANUAL_TESTS.md) contains simulator and physical
+device cases and the required result-recording template.
+
+Run repository checks with:
+
+```sh
+npm test
+```
+
+## License and attribution
+
+MIT. Based on
+[`greybax/cordova-plugin-native-spinner`](https://github.com/greybax/cordova-plugin-native-spinner)
+and the earlier Paldom/SpinnerDialog work.

@@ -1,21 +1,43 @@
 var exec = require('cordova/exec');
 
+function optionOrDefault(options, name, defaultValue) {
+  return options[name] === undefined || options[name] === null
+    ? defaultValue
+    : options[name];
+}
+
+function isIos() {
+  if (typeof cordova !== 'undefined' && cordova.platformId) {
+    return cordova.platformId === 'ios';
+  }
+
+  return typeof navigator !== 'undefined' && /iPad|iPhone|iPod/i.test(navigator.userAgent);
+}
+
 module.exports = {
-  show: function (title, message, cancelCallback, iosOptions) {
-    if (cancelCallback == true && typeof cancelCallback !== "function") {
-      cancelCallback = function () { };
+  show: function (title, message, cancelCallback, options) {
+    var hasCancelCallback = typeof cancelCallback === 'function';
+    var isFixed = cancelCallback === true || hasCancelCallback;
+    var errorCallback = null;
+    var params = [title, message, isFixed];
+
+    if (isIos()) {
+      options = options && typeof options === 'object' ? options : {};
+      errorCallback = typeof options.errorCallback === 'function' ? options.errorCallback : null;
+      params = params.concat([
+        optionOrDefault(options, 'overlayOpacity', 0.35),
+        optionOrDefault(options, 'textColorRed', 1),
+        optionOrDefault(options, 'textColorGreen', 1),
+        optionOrDefault(options, 'textColorBlue', 1),
+        optionOrDefault(options, 'fontSize', 16),
+        hasCancelCallback
+      ]);
     }
-    var isPlatformIos = (navigator.userAgent.match(/iPad/i)) == "iPad" || (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? true : false;
-    var params = [title, message, !!cancelCallback];
-    if (isPlatformIos) {
-      if (typeof iosOptions != "object") {
-        iosOptions = { overlayOpacity: 0.35, textColorRed: 1, textColorGreen: 1, textColorBlue: 1, fontSize: 10 }
-      }
-      params = params.concat([(iosOptions.overlayOpacity || 0.35), (iosOptions.textColorRed || 1), (iosOptions.textColorGreen || 1), (iosOptions.textColorBlue || 1), (iosOptions.fontSize || 10)])
-    }
-    cordova.exec(cancelCallback, null, 'SpinnerDialog', 'show', params);
+
+    exec(hasCancelCallback ? cancelCallback : null, errorCallback, 'SpinnerDialog', 'show', params);
   },
+
   hide: function (wpStatusbar, success, fail) {
-    cordova.exec(success, fail, 'SpinnerDialog', 'hide', [wpStatusbar]);
+    exec(success, fail, 'SpinnerDialog', 'hide', [wpStatusbar]);
   }
 };
