@@ -1,0 +1,14 @@
+{
+  "name": "native-spinner-repro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prepare:ios": "cordova platform add ios@8.1.0 && cordova plugin add .. && cordova prepare ios",
+    "run:ios": "cordova run ios --emulator"
+  },
+  "devDependencies": {
+    "cordova": "12.0.0",
+    "cordova-ios": "8.1.0"
+  }
+}
+

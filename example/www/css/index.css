@@ -1,0 +1,30 @@
+:root {
+  color-scheme: light dark;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+}
+
+main {
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+button {
+  display: block;
+  font: inherit;
+  margin: 12px 0;
+  min-height: 44px;
+  width: 100%;
+}
+
+pre {
+  border: 1px solid currentColor;
+  min-height: 100px;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+

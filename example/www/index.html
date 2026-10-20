@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+  <title>Native Spinner Repro</title>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <main>
+    <h1>Native Spinner Repro</h1>
+    <p>Touch count behind the overlay: <strong id="touch-count">0</strong></p>
+    <button id="touch-target">Touch target</button>
+    <button data-case="message">Message + opacity</button>
+    <button data-case="cancelable">Cancelable (tap overlay)</button>
+    <button data-case="blocking">Blocking (auto-hide after 4 s)</button>
+    <button data-case="callback">Callback once (auto-hide after 6 s)</button>
+    <button data-case="long">Long multiline message</button>
+    <button data-case="update">Two consecutive show() calls</button>
+    <button data-case="hide">Three consecutive hide() calls</button>
+    <pre id="log" aria-live="polite"></pre>
+  </main>
+  <script src="cordova.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
+
